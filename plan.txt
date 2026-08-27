@@ -1,0 +1,22 @@
+take the query from request
+validate it and send to llm api
+display the response by streaming in the textarea
+
+option to send user's api key
+
+
+internal flow-
+store the user query and response against the query
+store should be in background
+
+database-
+
+queries-  id, user_qsn, response, is_accepted, user_id
+
+
+apis - 
+
+POST - /query - {key: optional, context: required| string}
+
+
+Note: Api should handle multiple request concurently
