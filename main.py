@@ -1,3 +1,4 @@
+import datetime
 import os
 from pathlib import Path
 
@@ -24,12 +25,19 @@ client = OpenAI(
 app = FastAPI(title="Text Generation from LLM api by pradipta", version='0.1.0')
 
 
+
+@app.get('/health')
+def health_check():
+    return {'succes': True, 'time': datetime.datetime.now()}
+
 @app.get('/query', status_code=status.HTTP_200_OK, description="This endpoint takes key(optional), context then return the response")
 def query(input_request: InputRequest = Depends()):
     return StreamingResponse(
         generate_response(client, input_request.query_text),
         media_type="text/event-stream"
     )
+
+
     
 
 
