@@ -15,5 +15,7 @@ def generate_response(client, query):
     
       # Extract the assistant message with reasoning_details
       for chunk in response:
-         print(chunk.choices[0].delta.content, end="", flush=True)
-      
+         content = chunk.choices[0].delta.content
+         if content:
+             print(content, end="", flush=True)
+             yield content

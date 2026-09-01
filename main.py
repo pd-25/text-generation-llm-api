@@ -4,6 +4,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from openai import OpenAI
 from fastapi import Depends, FastAPI, status
+from fastapi.responses import StreamingResponse
 
 from llm_call import generate_response
 from schema import InputRequest, LLMResponse
@@ -23,11 +24,11 @@ client = OpenAI(
 app = FastAPI(title="Text Generation from LLM api", version='0.1.0')
 
 
-@app.get('/query', response_model=LLMResponse, status_code=status.HTTP_200_OK, description="This endpoint takes key(optional), context then return the response")
+@app.get('/query', status_code=status.HTTP_200_OK, description="This endpoint takes key(optional), context then return the response")
 def query(input_request: InputRequest = Depends()):
-    response = generate_response(client, input_request.query_text)
-    return LLMResponse(
-        response=response
+    return StreamingResponse(
+        generate_response(client, input_request.query_text),
+        media_type="text/event-stream"
     )
     
 
