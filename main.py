@@ -21,7 +21,7 @@ client = OpenAI(
     api_key=api_key,
 )
 
-app = FastAPI(title="Text Generation from LLM api", version='0.1.0')
+app = FastAPI(title="Text Generation from LLM api by pradipta", version='0.1.0')
 
 
 @app.get('/query', status_code=status.HTTP_200_OK, description="This endpoint takes key(optional), context then return the response")
